@@ -39,6 +39,15 @@ function M.system_open_cfile() B.system_open_file_silent('%s', B.get_cfile()) en
 
 M.file_stack = {}
 
+B.copyright('md', function()
+  vim.fn.append('$', {
+    '',
+    string.format('# %s', vim.fn.strftime '%y%m%d-%Hh%Mm'),
+  })
+  vim.lsp.buf.format()
+  vim.cmd 'norm Gw'
+end)
+
 function M.buffer_open_cfile()
   local cfile = B.get_cfile()
   if B.is(cfile) and B.file_exists(cfile) and vim.fn.filereadable(cfile) == 1 then
