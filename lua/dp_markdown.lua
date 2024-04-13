@@ -37,7 +37,9 @@ end, {
   desc = 'MarkdownExportDelete',
 })
 
-function M.system_open_cfile() B.system_open_file_silent('%s', B.get_cfile()) end
+function M.system_open_cfile()
+  B.system_open_file_silent('%s', B.get_cfile())
+end
 
 B.copyright('md', function()
   vim.fn.append('$', {
@@ -134,7 +136,7 @@ function M.copy_cfile_clip()
       local rename_file = name .. '.' .. ext
       local newfile = B.get_filepath(B.windows_temp, rename_file)
       local copy2clip_exe = require 'config.nvim.nvimtree'.copy2clip_exe
-      B.system_run('start silent', 'copy /y "%s" "%s" && %s "%s"', B.rep_slash(cfile), newfile, copy2clip_exe, newfile)
+      B.system_run('start silent', 'copy /y "%s" "%s" && %s "%s"', B.rep(cfile), newfile, copy2clip_exe, newfile)
       B.notify_info(newfile .. ' copied')
     else
       B.system_run('start silent', '%s "%s"', copy2clip_exe, cfile)
@@ -201,11 +203,10 @@ function M.run_in_cmd(silent)
   local head = B.get_head_dir()
   local line = vim.fn.trim(vim.fn.getline '.')
   if B.is(head) and B.is(line) then
-    B.histadd_en = 1
     if silent then
-      B.system_run('start silent', '%s && %s', B.system_cd(head), line)
+      B.system_run_histadd('start silent', '%s && %s', B.system_cd(head), line)
     else
-      B.system_run('start', '%s && %s', B.system_cd(head), line)
+      B.system_run_histadd('start', '%s && %s', B.system_cd(head), line)
     end
   end
 end
@@ -296,5 +297,10 @@ function M.align_table()
   vim.fn.setline(M.markdowntable_line, newLines)
   B.cmd('norm %dgg0%d|', ll[2], ll[3])
 end
+
+require 'which-key'.register {
+  ['<leader>m'] = { name = 'markdown', },
+  -- ['<leader>mo'] = { function() M.system_open_cfile() end, 'system open cfile', mode = { 'n', 'v', }, silent = true, },
+}
 
 return M
