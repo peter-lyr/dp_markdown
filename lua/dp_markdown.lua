@@ -9,9 +9,15 @@ M.lua = B.getlua(M.source)
 
 vim.g.mkdp_highlight_css = B.get_file(B.get_source_dot_dir(M.source, 'preview'), 'mkdp_highlight.css')
 
--------------
+M.markdowntable_line = 0
 
 M.markdown_export_py = B.get_file(B.get_source_dot_dir(M.source, 'export'), 'markdown_export.py')
+
+M.fts = {
+  'pdf', 'html', 'docx',
+}
+
+M.file_stack = {}
 
 vim.api.nvim_create_user_command('MarkdownExportCreate', function()
   B.system_run('asyncrun', 'python %s %s & pause', M.markdown_export_py, B.buf_get_name())
@@ -19,10 +25,6 @@ end, {
   nargs = 0,
   desc = 'MarkdownExportCreate',
 })
-
-M.fts = {
-  'pdf', 'html', 'docx',
-}
 
 vim.api.nvim_create_user_command('MarkdownExportDelete', function()
   local files = B.scan_files_deep(nil, { filetypes = M.fts, })
@@ -36,8 +38,6 @@ end, {
 })
 
 function M.system_open_cfile() B.system_open_file_silent('%s', B.get_cfile()) end
-
-M.file_stack = {}
 
 B.copyright('md', function()
   vim.fn.append('$', {
@@ -209,10 +209,6 @@ function M.run_in_cmd(silent)
     end
   end
 end
-
--- table
-
-M.markdowntable_line = 0
 
 function M.get_paragraph()
   local paragraph = {}
