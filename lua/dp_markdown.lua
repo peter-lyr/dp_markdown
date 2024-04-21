@@ -305,7 +305,7 @@ require 'which-key'.register {
   ['<leader>mc'] = { name = 'markdown.copy/create', },
   ['<leader>mct'] = { function() M.create_file_from_target() end, 'markdown.create: file from target: 1. zoom,inner,problem', mode = { 'n', 'v', }, silent = true, },
   ['<leader>mcp'] = { function() M.copy_cfile_path_clip() end, 'markdown.copy: <cfile> url text to clip', mode = { 'n', 'v', }, silent = true, },
-  ['<leader>mcc'] = { function() M.copy_cfile_clip() end, 'markdown.copy: <cfile> file itself to clip', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mcf'] = { function() M.copy_cfile_clip() end, 'markdown.copy: <cfile> file itself to clip', mode = { 'n', 'v', }, silent = true, },
   ['<leader>mu'] = { name = 'markdown.url', },
   ['<leader>muu'] = { function() M.make_url() end, 'markdown.url: make relative url from clipboard', mode = { 'n', 'v', }, silent = true, },
   ['<leader>mus'] = { function() M.make_url_sel() end, 'markdown.url: make relative url from sel markdown file', mode = { 'n', 'v', }, silent = true, },
