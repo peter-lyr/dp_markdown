@@ -299,7 +299,19 @@ end
 
 require 'which-key'.register {
   ['<leader>m'] = { name = 'markdown', },
-  -- ['<leader>mo'] = { function() M.system_open_cfile() end, 'system open cfile', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>m<leader>'] = { function() M.buffer_open_cfile() end, 'markdown: open <cfile> and stack', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>ms'] = { function() M.system_open_cfile() end, 'markdown: system open <cfile>', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mh'] = { function() M.pop_file_stack() end, 'markdown: pop from stack and go back last buffer', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mc'] = { name = 'markdown.copy/create', },
+  ['<leader>mct'] = { function() M.create_file_from_target() end, 'markdown.create: file from target: 1. zoom,inner,problem', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mcp'] = { function() M.copy_cfile_path_clip() end, 'markdown.copy: <cfile> url text to clip', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mcc'] = { function() M.copy_cfile_clip() end, 'markdown.copy: <cfile> file itself to clip', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mu'] = { name = 'markdown.url', },
+  ['<leader>muu'] = { function() M.make_url() end, 'markdown.url: make relative url from clipboard', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mus'] = { function() M.make_url_sel() end, 'markdown.url: make relative url from sel markdown file', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mr'] = { name = 'markdown.runcmd', },
+  ['<leader>mrr'] = { function() M.run_in_cmd() end, 'markdown.runcmd: run current line as cmd command', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mrs'] = { function() M.run_in_cmd 'silent' end, 'markdown.runcmd: run current line as cmd command silent', mode = { 'n', 'v', }, silent = true, },
 }
 
 return M
