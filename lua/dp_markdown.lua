@@ -153,16 +153,18 @@ function M.make_url(file, patt)
   if not B.file_exists(file) then
     return
   end
-  local cur_file = vim.fn.expand '%:p:h'
-  if not B.is(cur_file) then
+  local file_root = B.get_proj_root(file)
+  local temp = vim.split(file_root, '\\')
+  local file_root_name = temp[#temp]
+  if not B.is(file_root) then
     return
   end
   if not patt then
     patt = '`%s`'
   end
-  local rel = B.relpath(file, cur_file)
+  local rel = B.relpath(file, file_root)
   if B.is(rel) then
-    vim.fn.append('.', string.format(patt, rel))
+    vim.fn.append('.', string.format(patt, file_root_name .. ':' .. rel))
   else
     B.notify_info_append(string.format('not making rel: %s, %s', file, cur_file))
   end
