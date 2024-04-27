@@ -297,7 +297,7 @@ require 'which-key'.register {
   ['<leader>m'] = { name = 'markdown', },
   ['<leader>m<leader>'] = { function() M.buffer_open_cfile() end, 'markdown: buffer_open_cfile and stack', mode = { 'n', 'v', }, silent = true, },
   ['<leader>ms'] = { function() M.system_open_cfile() end, 'markdown: system_open_cfile', mode = { 'n', 'v', }, silent = true, },
-  ['<leader>mp'] = { function() M.pop_file_stack() end, 'markdown: pop from stack and go back last buffer', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mh'] = { function() M.pop_file_stack() end, 'markdown: pop from stack and go back last buffer', mode = { 'n', 'v', }, silent = true, },
   ['<leader>mc'] = { name = 'markdown.copy/create', },
   ['<leader>mcf'] = { function() M.create_file_from_target() end, 'markdown.create: file from target: 1. zoom,inner,problem', mode = { 'n', 'v', }, silent = true, },
   ['<leader>mcu'] = { function() M.copy_cfile_url_to_clip() end, 'markdown.copy: copy_cfile_url_to_clip', mode = { 'n', 'v', }, silent = true, },
@@ -311,6 +311,10 @@ require 'which-key'.register {
   ['<leader>me'] = { name = 'markdown.export', },
   ['<leader>mec'] = { function() M.export_create() end, 'markdown.export: create', mode = { 'n', 'v', }, silent = true, },
   ['<leader>med'] = { function() M.export_delete() end, 'markdown.export: delete', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mp'] = { name = 'markdown.preview', },
+  ['<leader>mpp'] = { '<cmd>MarkdownPreview<cr>', 'markdown.preview: preview', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mps'] = { '<cmd>MarkdownPreviewStop<cr>', 'markdown.preview: stop', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mp<leader>'] = { '<cmd>MarkdownPreviewToggle<cr>', 'markdown.preview: toggle', mode = { 'n', 'v', }, silent = true, },
 }
 
 return M
