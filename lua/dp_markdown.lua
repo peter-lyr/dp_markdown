@@ -19,23 +19,17 @@ M.fts = {
 
 M.file_stack = {}
 
-vim.api.nvim_create_user_command('MarkdownExportCreate', function()
+function M.export_create()
   B.system_run('asyncrun', 'python %s %s & pause', M.markdown_export_py, B.buf_get_name())
-end, {
-  nargs = 0,
-  desc = 'MarkdownExportCreate',
-})
+end
 
-vim.api.nvim_create_user_command('MarkdownExportDelete', function()
+function M.export_delete()
   local files = B.scan_files_deep(nil, { filetypes = M.fts, })
   for _, file in ipairs(files) do
     B.delete_file(file)
   end
   B.notify_info(#files .. ' files deleting.')
-end, {
-  nargs = 0,
-  desc = 'MarkdownExportDelete',
-})
+end
 
 function M.system_open_cfile()
   B.system_open_file_silent('%s', B.get_cfile())
@@ -314,6 +308,9 @@ require 'which-key'.register {
   ['<leader>mr'] = { name = 'markdown.run', },
   ['<leader>mrc'] = { function() M.run_in_cmd() end, 'markdown.run: run current line as cmd command', mode = { 'n', 'v', }, silent = true, },
   ['<leader>mrs'] = { function() M.run_in_cmd 'silent' end, 'markdown.run: run current line as cmd command silent', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>me'] = { name = 'markdown.export', },
+  ['<leader>mec'] = { function() M.export_create() end, 'markdown.export: create', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>med'] = { function() M.export_delete() end, 'markdown.export: delete', mode = { 'n', 'v', }, silent = true, },
 }
 
 return M
