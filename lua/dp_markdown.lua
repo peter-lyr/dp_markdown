@@ -8,8 +8,7 @@ M.source = B.getsource(debug.getinfo(1)['source'])
 M.lua = B.getlua(M.source)
 
 require 'dp_markdown.export'
-
-vim.g.mkdp_highlight_css = B.get_file(B.get_source_dot_dir(M.source, 'preview'), 'mkdp_highlight.css')
+require 'dp_markdown.preview'
 
 M.markdowntable_line = 0
 
@@ -312,13 +311,6 @@ require 'which-key'.register {
 
 require 'which-key'.register {
   ['<leader>mcf'] = { function() M.create_file_from_target() end, 'markdown.create: file from target: 1. zoom,inner,problem', mode = { 'n', 'v', }, silent = true, },
-}
-
-require 'which-key'.register {
-  ['<leader>mp'] = { name = 'markdown.preview', },
-  ['<leader>mpp'] = { '<cmd>MarkdownPreview<cr>', 'markdown.preview: preview', mode = { 'n', 'v', }, silent = true, },
-  ['<leader>mps'] = { '<cmd>MarkdownPreviewStop<cr>', 'markdown.preview: stop', mode = { 'n', 'v', }, silent = true, },
-  ['<leader>mp<leader>'] = { '<cmd>MarkdownPreviewToggle<cr>', 'markdown.preview: toggle', mode = { 'n', 'v', }, silent = true, },
 }
 
 require 'which-key'.register {
