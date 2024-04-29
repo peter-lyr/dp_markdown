@@ -6,6 +6,7 @@ if not sta then return print('Dp_base is required!', debug.getinfo(1)['source'])
 
 if B.check_plugins {
       'folke/which-key.nvim',
+      'git@github.com:peter-lyr/sha2',
     } then
   return
 end

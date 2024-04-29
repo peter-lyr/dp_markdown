@@ -5,6 +5,8 @@ local B = require 'dp_base'
 M.source = B.getsource(debug.getinfo(1)['source'])
 M.lua = B.getlua(M.source)
 
+require 'dp_markdown.image.paste'
+
 function M.image_paste()
   print 'image_paste'
 end
