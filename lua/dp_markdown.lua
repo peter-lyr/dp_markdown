@@ -7,31 +7,13 @@ if not sta then return print('Dp_base is required!', debug.getinfo(1)['source'])
 M.source = B.getsource(debug.getinfo(1)['source'])
 M.lua = B.getlua(M.source)
 
+require 'dp_markdown.export'
+
 vim.g.mkdp_highlight_css = B.get_file(B.get_source_dot_dir(M.source, 'preview'), 'mkdp_highlight.css')
 
 M.markdowntable_line = 0
 
-M.markdown_export_py = B.get_file(B.get_source_dot_dir(M.source, 'export'), 'markdown_export.py')
-
-M.fts = {
-  'pdf', 'html', 'docx',
-}
-
 M.file_stack = {}
-
-function M.export()
-  function M.export_create()
-    B.system_run('asyncrun', 'python %s %s & pause', M.markdown_export_py, B.buf_get_name())
-  end
-
-  function M.export_delete()
-    local files = B.scan_files_deep(nil, { filetypes = M.fts, })
-    for _, file in ipairs(files) do
-      B.delete_file(file)
-    end
-    B.notify_info(#files .. ' files deleting.')
-  end
-end
 
 B.copyright('md', function()
   vim.fn.append('$', {
@@ -309,7 +291,6 @@ function M.image()
   end
 end
 
-M.export()
 M.cfile()
 M.create()
 M.run()
@@ -327,12 +308,6 @@ require 'which-key'.register {
   ['<leader>ms'] = { function() M.open_cfile_in_system() end, 'markdown: open_cfile_in_system', mode = { 'n', 'v', }, silent = true, },
   ['<leader>mcu'] = { function() M.copy_cfile_url_to_clip() end, 'markdown.copy: copy_cfile_url_to_clip', mode = { 'n', 'v', }, silent = true, },
   ['<leader>mci'] = { function() M.copy_cfile_itself_to_clip() end, 'markdown.copy: copy_cfile_itself_to_clip', mode = { 'n', 'v', }, silent = true, },
-}
-
-require 'which-key'.register {
-  ['<leader>me'] = { name = 'markdown.export', },
-  ['<leader>mec'] = { function() M.export_create() end, 'markdown.export: create', mode = { 'n', 'v', }, silent = true, },
-  ['<leader>med'] = { function() M.export_delete() end, 'markdown.export: delete', mode = { 'n', 'v', }, silent = true, },
 }
 
 require 'which-key'.register {
