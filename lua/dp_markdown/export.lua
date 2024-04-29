@@ -2,7 +2,7 @@ local M = {}
 
 local B = require 'dp_base'
 
-M.markdown_export_py = B.get_file(B.get_source_dot_dir(M.source, 'export'), 'markdown_export.py')
+M.markdown_export_py = B.get_file(B.get_source_dot_dir(M.source), 'markdown_export.py')
 
 M.fts = {
   'pdf', 'html', 'docx',
