@@ -2,6 +2,9 @@ local M = {}
 
 local B = require 'dp_base'
 
+M.source = B.getsource(debug.getinfo(1)['source'])
+M.lua = B.getlua(M.source)
+
 M.markdown_export_py = B.get_file(B.get_source_dot_dir(M.source), 'markdown_export.py')
 
 M.fts = {
