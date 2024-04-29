@@ -315,17 +315,17 @@ require 'which-key'.register {
 }
 
 require 'which-key'.register {
-  ['<leader>me'] = { name = 'markdown.export', },
-  ['<leader>mec'] = { function() M.export_create() end, 'markdown.export: create', mode = { 'n', 'v', }, silent = true, },
-  ['<leader>med'] = { function() M.export_delete() end, 'markdown.export: delete', mode = { 'n', 'v', }, silent = true, },
-}
-
-require 'which-key'.register {
   ['<leader>m<leader>'] = { function() M.open_cfile_in_curbuf_and_stack() end, 'markdown: open_cfile_in_curbuf_and_stack', mode = { 'n', 'v', }, silent = true, },
   ['<leader>mh'] = { function() M.pop_from_stack_and_go_back_last_buffer() end, 'markdown: pop_from_stack_and_go_back_last_buffer', mode = { 'n', 'v', }, silent = true, },
   ['<leader>ms'] = { function() M.open_cfile_in_system() end, 'markdown: open_cfile_in_system', mode = { 'n', 'v', }, silent = true, },
   ['<leader>mcu'] = { function() M.copy_cfile_url_to_clip() end, 'markdown.copy: copy_cfile_url_to_clip', mode = { 'n', 'v', }, silent = true, },
   ['<leader>mci'] = { function() M.copy_cfile_itself_to_clip() end, 'markdown.copy: copy_cfile_itself_to_clip', mode = { 'n', 'v', }, silent = true, },
+}
+
+require 'which-key'.register {
+  ['<leader>me'] = { name = 'markdown.export', },
+  ['<leader>mec'] = { function() M.export_create() end, 'markdown.export: create', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>med'] = { function() M.export_delete() end, 'markdown.export: delete', mode = { 'n', 'v', }, silent = true, },
 }
 
 require 'which-key'.register {
