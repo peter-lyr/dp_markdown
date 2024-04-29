@@ -19,16 +19,18 @@ M.fts = {
 
 M.file_stack = {}
 
-function M.export_create()
-  B.system_run('asyncrun', 'python %s %s & pause', M.markdown_export_py, B.buf_get_name())
-end
-
-function M.export_delete()
-  local files = B.scan_files_deep(nil, { filetypes = M.fts, })
-  for _, file in ipairs(files) do
-    B.delete_file(file)
+function M.export()
+  function M.export_create()
+    B.system_run('asyncrun', 'python %s %s & pause', M.markdown_export_py, B.buf_get_name())
   end
-  B.notify_info(#files .. ' files deleting.')
+
+  function M.export_delete()
+    local files = B.scan_files_deep(nil, { filetypes = M.fts, })
+    for _, file in ipairs(files) do
+      B.delete_file(file)
+    end
+    B.notify_info(#files .. ' files deleting.')
+  end
 end
 
 function M.system_open_cfile()
@@ -292,6 +294,8 @@ function M.align_table()
   vim.fn.setline(M.markdowntable_line, newLines)
   B.cmd('norm %dgg0%d|', ll[2], ll[3])
 end
+
+M.export()
 
 require 'which-key'.register {
   ['<leader>m'] = { name = 'markdown', },
