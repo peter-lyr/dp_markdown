@@ -101,8 +101,8 @@ B.aucmd('BufReadPost', 'markdown.image.paste.BufReadPost', {
   end,
 })
 
-function M.paste_image(image_type)
-  if not vim.g.paste_image_allowed and not M.is_to_paste_image() then
+function M.paste_image_do(image_type)
+  if not vim.g.paste_image_allowed then
     return
   end
   vim.g.temp_image_file_with_ext = B.rep(B.getcreate_temp_dirpath 'nvim_paste_image':joinpath(M.image_paste_temp_name).filename)
@@ -180,29 +180,40 @@ EOF
   return vim.g.paste_image_allowed
 end
 
-function M.middlemouse()
+function M.image_paste(image_type)
+  if M.is_to_paste_image() then
+    M.paste_image_do(image_type)
+  end
+end
+
+function M.paste_small()
   if vim.fn.getmousepos()['line'] == 0 then
     return '<MiddleMouse>'
   end
   if M.is_to_paste_image() then
-    M.paste_image()
+    M.paste_image_do()
+    return '<Ignore>'
   end
   return '<MiddleMouse>'
 end
 
-function M.s_middlemouse()
+function M.paste_png()
   if vim.fn.getmousepos()['line'] == 0 then
     return '<S-MiddleMouse>'
   end
   if M.is_to_paste_image() then
-    M.paste_image 'png'
+    M.paste_image_do 'png'
+    return '<Ignore>'
   end
   return '<S-MiddleMouse>'
 end
 
 require 'which-key'.register {
-  ['<MiddleMouse>'] = { function() M.middlemouse() end, 'image.paste: small', expr = true, mode = { 'n', 'v', }, silent = true, },
-  ['<S-MiddleMouse>'] = { function() M.s_middlemouse() end, 'image.paste: png', expr = true, mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mip'] = { name = 'markdown.image', },
+  ['<leader>mips'] = { function() M.image_paste() end, 'markdown.image: paste small', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mipp'] = { function() M.image_paste 'png' end, 'markdown.image: paste png', mode = { 'n', 'v', }, silent = true, },
+  ['<MiddleMouse>'] = { function() M.paste_small() end, 'markdown.image: paste small', expr = true, mode = { 'n', 'v', }, silent = true, },
+  ['<S-MiddleMouse>'] = { function() M.paste_png() end, 'markdown.image: paste png', expr = true, mode = { 'n', 'v', }, silent = true, },
 }
 
 return M
