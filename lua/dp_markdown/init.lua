@@ -18,7 +18,6 @@ require 'dp_markdown.url'
 require 'dp_markdown.create'
 require 'dp_markdown.run'
 require 'dp_markdown.image'
-require 'dp_markdown.xxd'
 
 B.copyright('md', function()
   vim.fn.append('$', {
