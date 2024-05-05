@@ -18,7 +18,7 @@ function M.open_cfile_in_curbuf_and_stack()
     M.file_stack[#M.file_stack + 1] = cfile
   else
     if B.is(cfile) and B.is_dir(cfile) then
-      B.cmd('e %s', cfile)
+      require 'dp_nvimtree'.open(cfile)
     else
       B.echo('not a file: %s', cfile)
     end
