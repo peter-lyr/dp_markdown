@@ -1,9 +1,14 @@
 local M = {}
 
+-- [ ] TODO: 当移动或重命名文件时更新引用
+-- [x] TODODONE: 先找到引用文件
+
 local B = require 'dp_base'
 
 M.source = B.getsource(debug.getinfo(1)['source'])
 M.lua = B.getlua(M.source)
+
+M.update_url_py = B.get_file(B.get_source_dot_dir(M.source), 'update_url.py')
 
 function M.make_url(file, patt)
   if not file then
@@ -38,10 +43,18 @@ function M.make_url_sel()
   end)
 end
 
+function M.update_url(root)
+  if not root then
+    root = vim.loop.cwd()
+  end
+  B.system_run('asyncrun', 'python %s %s & pause', M.update_url_py, root)
+end
+
 require 'which-key'.register {
   ['<leader>mu'] = { name = 'markdown.url', },
   ['<leader>muu'] = { function() M.make_url() end, 'markdown.url: make relative url from clipboard', mode = { 'n', 'v', }, silent = true, },
   ['<leader>mus'] = { function() M.make_url_sel() end, 'markdown.url: make relative url from sel markdown file', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mud'] = { function() M.update_url() end, 'markdown.url: update url', mode = { 'n', 'v', }, silent = true, },
 }
 
 return M

@@ -1,7 +1,5 @@
 local M = {}
 
--- TODO: 当移动或重命名文件时更新引用
-
 local sta, B = pcall(require, 'dp_base')
 
 if not sta then return print('Dp_base is required!', debug.getinfo(1)['source']) end
