@@ -57,21 +57,23 @@ if __name__ == "__main__":
                                 Files[d].append(os.path.join(_d, _f).lower())
                                 FilesShort[d].append(_f.split(b"/")[-1].lower())
                     fname = rname.split(b"/")[-1].lower()
-                    c =  FilesShort[d].count(fname)
+                    c = FilesShort[d].count(fname)
                     if printed == 0:
                         printed = 1
                         print(file)
-                    print(c, '  ', rname.decode('utf-8'))
+                    print(c, "  ", rname.decode("utf-8"))
                     if (
                         FilesShort[d].count(fname) == 1
                     ):  # 只处理只找到一个相同文件名的情况,不存在或存在多个相同文件名的不处理
-                        new_rname = os.path.relpath(Files[d][FilesShort[d].index(fname)], d).replace(b"\\", b"/")
-                        new_line = new_line.replace( rname, new_rname)
+                        new_rname = os.path.relpath(
+                            Files[d][FilesShort[d].index(fname)], d
+                        ).replace(b"\\", b"/")
+                        new_line = new_line.replace(rname, new_rname)
                         allowed = 1
-                        _t = ''
+                        _t = ""
                         for _ in range(len(str(c))):
-                            _t += ' '
-                        print(_t, '->', new_rname.decode('utf-8'))
+                            _t += " "
+                        print(_t, "->", new_rname.decode("utf-8"))
             if allowed:
                 with open(file, "wb") as f:
                     f.writelines(new_lines)
