@@ -1,7 +1,6 @@
 local M = {}
 
--- [ ] TODO: 当移动或重命名文件时更新引用
--- [x] TODODONE: 先找到引用文件
+-- [x] TODODONE: 当移动或重命名文件时,手动更新引用
 
 local B = require 'dp_base'
 
@@ -47,7 +46,7 @@ function M.update_url(root)
   if not root then
     root = vim.loop.cwd()
   end
-  B.system_run('asyncrun', 'python %s %s & pause', M.update_url_py, root)
+  B.system_run('asyncrun', 'python %s %s', M.update_url_py, root)
 end
 
 require 'which-key'.register {
