@@ -14,12 +14,14 @@ function M.make_url(file, patt)
     file = vim.fn.getreg '+'
   end
   if not B.file_exists(file) then
+      print(string.format("## %s# %d", debug.getinfo(1)['source'], debug.getinfo(1)['currentline']))
     return
   end
   local file_root = B.get_proj_root(file)
   local temp = vim.split(file_root, '\\')
   local file_root_name = temp[#temp]
   if not B.is(file_root) then
+      print(string.format("## %s# %d", debug.getinfo(1)['source'], debug.getinfo(1)['currentline']))
     return
   end
   if not patt then
