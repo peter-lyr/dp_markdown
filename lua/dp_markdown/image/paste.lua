@@ -15,13 +15,20 @@ M.image_paste_temp_name = 'nvim_paste_temp'
 M.last_file = ''
 M.last_lnr = 1
 
+M.NORG_EXT = 'norg'
+
 M.MARKDOWN_EXTS = {
   'md',
+  M.NORG_EXT,
 }
 
 M.IMAGE_EXTS = {
   'jpg', 'png',
 }
+
+function M.is_in_norg_fts(file)
+  return B.is_file_in_extensions(file, { M.NORG_EXT, })
+end
 
 function M.is_in_markdown_fts(file)
   return B.is_file_in_extensions(file, M.MARKDOWN_EXTS)
@@ -54,6 +61,9 @@ function M.drag_image(image_file, markdown_file, lnr)
   image_root_dir_md_path:write(image_root_dir_md_url, 'a')
   local relative = vim.fn['repeat']('../', B.count_char(B.rep(string.sub(markdown_file, #proj_root + 2, #markdown_file)), '\\'))
   local image_root_dir_md_url_relative = string.format('![%s](%s%s/%s)', image_fname_tail_root, relative, M.image_root_dir_name, image_hash_name)
+  if M.is_in_norg_fts(markdown_file) then
+    image_root_dir_md_url_relative = string.format('{:%s%s/%s:}[%s]', relative, M.image_root_dir_name, image_hash_name, image_fname_tail_root)
+  end
   B.cmd('e %s', markdown_file)
   vim.fn.append(lnr, image_root_dir_md_url_relative)
   vim.cmd 'norm j'
@@ -169,7 +179,7 @@ EOF
   ]]
   local file = B.buf_get_name()
   if not M.is_in_markdown_fts(file) then
-    B.print('not a markdown file: ' .. file)
+    B.print('not a markdown or norg file: ' .. file)
     return nil
   end
   local project = B.get_proj_root(file)
