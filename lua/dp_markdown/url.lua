@@ -59,7 +59,12 @@ function M.make_url(file, patt)
 end
 
 function M.make_url_sel()
-  local markdown_files = B.scan_files_deep(vim.loop.cwd(), { filetypes = { 'md', }, })
+  local is_cur_norg_file = B.is_file_in_extensions(B.buf_get_name(), { 'norg', })
+  local opt = { filetypes = { 'md', }, }
+  if is_cur_norg_file then
+    opt = {}
+  end
+  local markdown_files = B.scan_files_deep(vim.loop.cwd(), opt)
   B.ui_sel(markdown_files, 'sel as file to make url', function(file)
     if file and B.file_exists(file) then
       M.make_url(file)
