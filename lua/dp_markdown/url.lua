@@ -14,26 +14,44 @@ function M.make_url(file, patt)
     file = vim.fn.getreg '+'
   end
   if not B.file_exists(file) then
-      print(string.format("## %s# %d", debug.getinfo(1)['source'], debug.getinfo(1)['currentline']))
     return
   end
   local file_root = B.get_proj_root(file)
   local temp = vim.split(file_root, '\\')
   local file_root_name = temp[#temp]
   if not B.is(file_root) then
-      print(string.format("## %s# %d", debug.getinfo(1)['source'], debug.getinfo(1)['currentline']))
     return
   end
+  local is_norg_file = require 'dp_markdown.image.paste'.is_in_norg_fts(file)
+  local is_cur_norg_file = B.is_file_in_extensions(B.buf_get_name(), { 'norg', })
   if not patt then
-    patt = '`%s`'
+    if is_cur_norg_file then
+      -- {/ /journal/2024/06/.12/12-inner_8936t-vcmbuf底噪存在电流音/20240612_165714.m4a}
+      patt = '{/ /%s}'
+    else
+      -- `work:journal/2024/06/.12/12-inner_8936t-vcmbuf底噪存在电流音/20240612_165714.m4a`
+      patt = '`%s`'
+    end
   end
   local rel = B.relpath(file, file_root)
   if B.is(rel) then
-    if require 'dp_markdown.image.paste'.is_in_norg_fts(file) then
-      local r = vim.fn.fnamemodify(rel, ':r')
-      vim.fn.append('.', string.format(patt, r .. ':}[' .. vim.fn.fnamemodify(r, ':t')))
+    if is_cur_norg_file then
+      if is_norg_file then
+        -- - {:$/journal/2024/06/12-haitong_13x-switch偶尔复位以及上电音量太小的问题:}[12-haitong_13x-switch偶尔复位以及上电音量太小的问题]
+        local r = vim.fn.fnamemodify(rel, ':r')
+        vim.fn.append('.', string.format(patt, r .. ':}[' .. vim.fn.fnamemodify(r, ':t')))
+      else
+        vim.fn.append('.', string.format(patt, rel))
+      end
     else
-      vim.fn.append('.', string.format(patt, file_root_name .. ':' .. rel))
+      if is_norg_file then
+        -- - {:$/journal/2024/06/12-haitong_13x-switch偶尔复位以及上电音量太小的问题:}[12-haitong_13x-switch偶尔复位以及上电音量太小的问题]
+        local r = vim.fn.fnamemodify(rel, ':r')
+        vim.fn.append('.', string.format(patt, r .. ':}[' .. vim.fn.fnamemodify(r, ':t')))
+      else
+        -- 3. `2024s:w/rb/s/202406/240605-haitong_13x-海通游戏手柄切换插拔主机无声问题.md`
+        vim.fn.append('.', string.format(patt, file_root_name .. ':' .. rel))
+      end
     end
   else
     B.notify_info_append(string.format('not making rel: %s, %s', file, cur_file))
