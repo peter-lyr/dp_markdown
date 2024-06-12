@@ -41,6 +41,8 @@ function M.make_url(file, patt)
         local r = vim.fn.fnamemodify(rel, ':r')
         vim.fn.append('.', string.format(patt, r .. ':}[' .. vim.fn.fnamemodify(r, ':t')))
       else
+        patt = '{/ %s}'
+        rel = B.relpath(file, B.file_parent(B.buf_get_name()))
         vim.fn.append('.', string.format(patt, rel))
       end
     else
