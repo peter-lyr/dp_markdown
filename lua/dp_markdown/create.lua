@@ -25,7 +25,7 @@ function M.create_file_from_target()
     end
   else
     -- ~ zoom,inner,dac推192K
-    res = B.findall([[ *[~] ([^,]+),([^,]+),(.+)]], vim.fn.trim(vim.fn.getline '.'))
+    res = B.findall([[ *[^ ]+ ([^ ,]+),([^,]+),(.+)]], vim.fn.trim(vim.fn.getline '.'))
     if B.is(res) and res[1] then
       res = res[1]
       if res and #res == 3 then
