@@ -29,7 +29,12 @@ function M.make_url(file, patt)
   end
   local rel = B.relpath(file, file_root)
   if B.is(rel) then
-    vim.fn.append('.', string.format(patt, file_root_name .. ':' .. rel))
+    if require 'dp_markdown.image.paste'.is_in_norg_fts(file) then
+      local r = vim.fn.fnamemodify(rel, ':r')
+      vim.fn.append('.', string.format(patt, r .. ':}[' .. vim.fn.fnamemodify(r, ':t')))
+    else
+      vim.fn.append('.', string.format(patt, file_root_name .. ':' .. rel))
+    end
   else
     B.notify_info_append(string.format('not making rel: %s, %s', file, cur_file))
   end
