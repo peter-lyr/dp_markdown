@@ -45,7 +45,7 @@ function M.create_file_from_target()
 end
 
 require 'which-key'.register {
-  ['<leader>mcf'] = { function() M.create_file_from_target() end, 'markdown.create: file from target: 1. zoom,inner,problem', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>mf'] = { function() M.create_file_from_target() end, 'markdown.create: file from target: 1. zoom,inner,problem', mode = { 'n', 'v', }, silent = true, },
 }
 
 return M
