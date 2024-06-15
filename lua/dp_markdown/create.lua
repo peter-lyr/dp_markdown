@@ -22,24 +22,25 @@ function M.create_file_from_target()
       B.cmd('b%d', bufnr)
       vim.cmd 'norm j0'
       B.notify_info(string.format('file created: %s', fname))
+      return
     end
-  else
-    -- ~ zoom,inner,dac推192K
-    res = B.findall([[ *[^ ]+ ([^ ,]+),([^,]+),(.+)]], vim.fn.trim(vim.fn.getline '.'))
-    if B.is(res) and res[1] then
-      res = res[1]
-      if res and #res == 3 then
-        local chip = res[1]
-        local client = res[2]
-        local title = vim.fn.trim(vim.fn.split(res[3], '->')[1])
-        local head_dir = B.file_parent(B.buf_get_name())
-        local fname = B.getcreate_filepath(head_dir, string.format('%s-%s_%s-%s.norg', vim.fn.strftime '%d', client, chip, title)).filename
-        require 'dp_markdown.url'.make_url(fname, '- {:$/%s]')
-        local bufnr = vim.fn.bufnr()
-        B.cmd('b%d', bufnr)
-        vim.cmd 'norm j0'
-        B.notify_info(string.format('file created: %s', fname))
-      end
+  end
+  -- ~ zoom,inner,dac推192K
+  res = B.findall([[ *[^ ]+ ([^ ,]+),([^,]+),(.+)]], vim.fn.trim(vim.fn.getline '.'))
+  if B.is(res) and res[1] then
+    res = res[1]
+    if res and #res == 3 then
+      local chip = res[1]
+      local client = res[2]
+      local title = vim.fn.trim(vim.fn.split(res[3], '->')[1])
+      local head_dir = B.file_parent(B.buf_get_name())
+      local fname = B.getcreate_filepath(head_dir, string.format('%s-%s_%s-%s.norg', vim.fn.strftime '%d', client, chip, title)).filename
+      require 'dp_markdown.url'.make_url(fname, '- {:$/%s]')
+      local bufnr = vim.fn.bufnr()
+      B.cmd('b%d', bufnr)
+      vim.cmd 'norm j0'
+      B.notify_info(string.format('file created: %s', fname))
+      return
     end
   end
 end
