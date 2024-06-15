@@ -62,7 +62,8 @@ function M.drag_image(image_file, markdown_file, lnr)
   local relative = vim.fn['repeat']('../', B.count_char(B.rep(string.sub(markdown_file, #proj_root + 2, #markdown_file)), '\\'))
   local image_root_dir_md_url_relative = string.format('![%s](%s%s/%s)', image_fname_tail_root, relative, M.image_root_dir_name, image_hash_name)
   if M.is_in_norg_fts(markdown_file) then
-    image_root_dir_md_url_relative = string.format('{:%s%s/%s:}[%s]', relative, M.image_root_dir_name, image_hash_name, image_fname_tail_root)
+    -- image_root_dir_md_url_relative = string.format('{:%s%s/%s:}[%s]', relative, M.image_root_dir_name, image_hash_name, image_fname_tail_root)
+    image_root_dir_md_url_relative = string.format('{/ %s%s/%s}[%s]', relative, M.image_root_dir_name, image_hash_name, image_fname_tail_root)
   end
   B.cmd('e %s', markdown_file)
   vim.fn.append(lnr, image_root_dir_md_url_relative)
