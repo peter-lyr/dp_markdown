@@ -4,32 +4,6 @@ local B = require 'dp_base'
 
 M.markdowntable_line = 0
 
-function M._get_paragraph()
-  local paragraph = {}
-  local linenr = vim.fn.line '.'
-  local lines = 0
-  for i = linenr, 1, -1 do
-    local line = vim.fn.getline(i)
-    if #line > 0 then
-      lines = lines + 1
-      table.insert(paragraph, 1, line)
-    else
-      M.markdowntable_line = i + 1
-      break
-    end
-  end
-  for i = linenr + 1, vim.fn.line '$' do
-    local line = vim.fn.getline(i)
-    if #line > 0 then
-      table.insert(paragraph, line)
-      lines = lines + 1
-    else
-      break
-    end
-  end
-  return paragraph
-end
-
 function M.align_table()
   if vim.opt.modifiable:get() == 0 then
     return
@@ -38,7 +12,7 @@ function M.align_table()
     return
   end
   local ll = vim.fn.getpos '.'
-  local lines = M._get_paragraph()
+  local lines = B.get_paragraph()
   local cols = 0
   for _, line in ipairs(lines) do
     local cells = vim.fn.split(vim.fn.trim(line), '|')
