@@ -41,9 +41,9 @@ function M.make_url(file, patt)
         local r = vim.fn.fnamemodify(rel, ':r')
         vim.fn.append('.', string.format(patt, r .. ':}[' .. vim.fn.fnamemodify(r, ':t')))
       else
-        patt = '{/ %s}'
+        patt = '{/ %s}[%s]'
         rel = B.relpath(file, B.file_parent(B.buf_get_name()))
-        vim.fn.append('.', string.format(patt, rel))
+        vim.fn.append('.', string.format(patt, rel, vim.fn.fnamemodify(rel, ':t')))
       end
     else
       if is_norg_file then
