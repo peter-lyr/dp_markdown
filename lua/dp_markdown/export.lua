@@ -16,7 +16,7 @@ function M.export_create()
 end
 
 function M.export_delete()
-  local files = B.scan_files_deep(nil, { filetypes = M.fts, })
+  local files = B.scan_files(nil, { filetypes = M.fts, })
   for _, file in ipairs(files) do
     B.delete_file(file)
   end
