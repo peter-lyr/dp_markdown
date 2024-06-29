@@ -26,6 +26,11 @@ M.IMAGE_EXTS = {
   'jpg', 'png',
 }
 
+M.ignore_dirs = {
+  'test',
+  'temp',
+}
+
 function M.is_in_norg_fts(file)
   return B.is_file_in_extensions(file, { M.NORG_EXT, })
 end
@@ -39,7 +44,16 @@ function M.is_in_image_fts(file)
 end
 
 function M.drag_image(image_file, markdown_file, lnr)
-  local proj_root = vim.fn['ProjectRootGet'](markdown_file)
+  local proj_root = B.rep(vim.fn['ProjectRootGet'](markdown_file))
+  local markdown_head_dir = B.rep(B.file_parent(markdown_file))
+  local cwd_list = vim.split(proj_root, '\\')
+  local markdown_head_dir_list = vim.split(markdown_head_dir, '\\')
+  for i = #cwd_list+1, #markdown_head_dir_list do
+    if B.is_in_tbl(markdown_head_dir_list[i], M.ignore_dirs) then
+      proj_root = markdown_head_dir
+      break
+    end
+  end
   if not B.is(proj_root) then
     B.notify_info('not in a project root: ' .. markdown_file)
     return
@@ -62,7 +76,6 @@ function M.drag_image(image_file, markdown_file, lnr)
   local relative = vim.fn['repeat']('../', B.count_char(B.rep(string.sub(markdown_file, #proj_root + 2, #markdown_file)), '\\'))
   local image_root_dir_md_url_relative = string.format('![%s](%s%s/%s)', image_fname_tail_root, relative, M.image_root_dir_name, image_hash_name)
   if M.is_in_norg_fts(markdown_file) then
-    -- image_root_dir_md_url_relative = string.format('{:%s%s/%s:}[%s]', relative, M.image_root_dir_name, image_hash_name, image_fname_tail_root)
     image_root_dir_md_url_relative = string.format('{/ %s%s/%s}[%s]', relative, M.image_root_dir_name, image_hash_name, image_fname_tail_root)
   end
   B.cmd('e %s', markdown_file)
