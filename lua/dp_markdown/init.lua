@@ -17,18 +17,18 @@ require 'dp_markdown.export'
 require 'dp_markdown.preview'
 require 'dp_markdown.cfile'
 require 'dp_markdown.url'
-require 'dp_markdown.create'
+-- require 'dp_markdown.create'
 require 'dp_markdown.run'
 require 'dp_markdown.image'
 
-B.copyright('md', function()
-  vim.fn.append('$', {
-    '',
-    string.format('# %s', vim.fn.strftime '%y%m%d-%Hh%Mm'),
-  })
-  vim.lsp.buf.format()
-  vim.cmd 'norm Gw'
-end)
+-- B.copyright('md', function()
+--   vim.fn.append('$', {
+--     '',
+--     string.format('# %s', vim.fn.strftime '%y%m%d-%Hh%Mm'),
+--   })
+--   vim.lsp.buf.format()
+--   vim.cmd 'norm Gw'
+-- end)
 
 require 'which-key'.register {
   ['<leader>m'] = { name = 'markdown', },
